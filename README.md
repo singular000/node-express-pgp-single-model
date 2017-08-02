@@ -65,5 +65,30 @@ Validation: only way to protect against empty strings is with CHECK
 title VARCHAR NOT NULL CHECK (title <> '')
 ```
 
+Run create db file in bash
 
+```
+$ psql -f db/create_db.sql
+```
 
+Run schema file in bash
+
+```
+$ psql books_app_api -f models/books/schema.sql
+```
+
+NOTEWORTHY ERRORS:
+
+```
+error: syntax error at or near "$"
+```
+
+If you forgot to supply an object to a 'create' or 'update' query, the QueryFile will kick up this error. It's as if it's trying to read SQL as opposed to pg-promise's named parameters syntax.
+
+Don't do this on a create route:
+
+![](https://i.imgur.com/H8bNGUU.png)
+
+Do do this instead  (include the `req.body` object as data ):
+
+![](https://i.imgur.com/vleQVbc.png)
